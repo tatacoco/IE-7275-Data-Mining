@@ -1,0 +1,31 @@
+##3.a. Standardize the data and create new dataset with standardized data and name it Ndata.
+```{r}
+raw_data <- read.csv("raw_data.csv")
+Ndata <-scale(raw_data)
+
+```
+
+
+##3.b. Create the boxplot of all the variables in their original form.
+```{r}
+boxplot(raw_data)
+```
+
+
+##3.c. Create boxplot of all the variables in their standardized form.
+```{r}
+boxplot(Ndata)
+```
+
+##3.d. Compare the result of part b and part c; interpret your answer.
+```{r}
+# After standarization, we could find all the data subsets are in a similler distrubution, and they are all Symmetry. 
+```
+
+##3.e. Prepare scatter plot of variables A and B. How are the data correlated in these variables? Interpret your answer.
+```{r}
+plot(raw_data$A~raw_data$B)
+
+# A and B are no correlation, they are distributed ramdommly. 
+
+```

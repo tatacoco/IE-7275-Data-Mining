@@ -1,0 +1,28 @@
+a
+
+b
+```{r}
+summary(M01_quasi_twitter$friends_count)
+```
+c
+Not quite accurate, since the minimum of friends cannot be negative.
+
+d
+```{r}
+scatterplot3d(M01_quasi_twitter$created_at_year,M01_quasi_twitter$education,M01_quasi_twitter$age,main = "3D scatter plot")
+```
+
+e
+```{r}
+num<-c(650,1000,900,300,14900)
+country<- c("UK", "Canada", "India", "Australia", "US")
+pct<- round(num/sum(num)*100)
+lbl<-paste(country,pct,"%")
+pie(num,labels = lbl)
+pie3D(num,labels = lbl)
+```
+f
+```{r}
+plot(density(M01_quasi_twitter$created_at_year))
+```
+
