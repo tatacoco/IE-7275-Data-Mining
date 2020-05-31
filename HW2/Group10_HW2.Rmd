@@ -1,0 +1,185 @@
+---
+title: "Group10_HW2"
+author: "Chenxuan He, Zejin Kong"
+date: "5/19/2020"
+output: pdf_document
+---
+
+
+## Problem 1: Perform principal component analysis on NHL.xlsx, which contains statistics of 30 teams in the National Hockey League. The description of the variables is provided in the ‘Description’ sheet of the file. Focus only on the variables 12 through 25, and create a new data frame.
+
+## • Input the new data frame to fa.parallel() function to determine the number of components to extract
+```{r}
+library(readxl)
+NHL <- read_excel("NHL.xlsx")
+str(NHL)
+NHL_new<-(NHL[,12:25])
+library(psych)
+fa.parallel(NHL_new,fa="pc",n.iter=100)
+```
+## • Input the new data frame to principal() function to extract the components. If raw data is input, the correlation matrix is automatically calculated by principal() function.
+```{r}
+principal(NHL_new,nfactors=1,rotate="none")
+```
+## • Rotate the components
+```{r}
+principal(NHL_new,nfactors=1,rotate = "varimax")
+```
+## • Compute component scores
+```{r}
+pc_NHL<-principal(NHL_new,nfactors=1, score = TRUE)
+head(pc_NHL$scores)
+```
+
+## • Graph an orthogonal solution using factor.plot()
+```{r}
+factor.plot(pc_NHL)
+
+```
+
+## • Interpret the results
+```{r}
+
+cor(pc_NHL$scores,NHL_new)
+
+```
+
+
+
+
+## Problem 2: Perform principal component analysis on Glass Identification Data.xlsx
+## • Input the raw data matrix to fa.parallel() function to determine the number of components to extract
+```{r}
+library(readxl)
+Glass_Identification_Data <- read_excel("Glass Identification Data.xlsx")
+fa.parallel(Glass_Identification_Data[,-c(1,11)],fa="pc",n.iter=100)
+```
+
+## • Input the raw data matrix to principal() function to extract the components. If raw data is input, the correlation matrix is automatically calculated by principal() function.
+```{r}
+principal(Glass_Identification_Data[,-c(1,11)],nfactors=4,rotate="none")
+```
+## • Rotate the components
+```{r}
+principal(Glass_Identification_Data[,-c(1,11)],nfactors=4,rotate = "varimax")
+
+```
+## • Compute component scores
+```{r}
+pc_Glass<-principal(Glass_Identification_Data[,-c(1,11)],nfactors=4,score=TRUE)
+head(pc_Glass$scores)
+```
+## • Graph an orthogonal solution using factor.plot()
+```{r}
+factor.plot(pc_Glass)
+```
+## • Interpret the results
+```{r}
+cor(pc_Glass$scores,Glass_Identification_Data)
+```
+
+
+
+
+
+## Problem 3: Perform factor analysis on Herman74.cor, which is a data structure available in the base installation (A correlation matrix of 24 psychological tests given to 145 seventh and eight-grade children in a Chicago suburb by Holzinger and Swineford).
+
+## • Input the correlation matrix to fa.parallel() function to determine the number of components to extract
+```{r}
+Herman<-Harman74.cor$cov
+fa.parallel(Herman)
+```
+## • Input the correlation matrix to fa() function to extract the components. If raw data is input, the correlation matrix is automatically calculated by fa() function.
+```{r}
+fa(Herman,nfactors = 4,rotate ="none")
+
+```
+## • Rotate the factors
+```{r}
+fa(Herman,nfactors = 4,rotate = "varimax")
+```
+## • Compute factor scores
+```{r}
+fa_Herman<-fa(Herman,nfactors = 4,rotate = "varimax",scores="regression")
+fa_Herman$score.cor
+```
+## • Graph an orthogonal solution using factor.plot()
+```{r}
+factor.plot(fa_Herman)
+```
+## • Graph an oblique solutions using fa.diagram()
+```{r}
+fa.diagram(fa_Herman)
+```
+## • Interpret the results
+```{r}
+
+```
+
+
+
+
+
+## Problem 4: Perform factor analysis on breast-cancer-wisconsin.xlsx, is a multivariate dataset that is used to predict whether a cancer is malignant or benign from biopsy details of 699 patients with 11 attributes. Create a new data frame by removing the variable “BN”.
+
+## • Calculate the correlation matrix from the new data frame. Visualize the correlation matrix using pairs.panels function of the “psych” package. How would you interpret the result in terms of correlation among the variables?
+```{r}
+breast_cancer_wisconsin <- read_excel("breast-cancer-wisconsin.xlsx")
+bcw_new<- data.frame(breast_cancer_wisconsin[-7])
+cor(bcw_new)
+pairs.panels(bcw_new)
+```
+## • Input the correlation matrix to fa.parallel() function to determine the number of components to extract
+```{r}
+fa.parallel(bcw_new,n.iter=100)
+```
+## • Input the correlation matrix to fa() function to extract the components. If raw data is input, the correlation matrix is automatically calculated by fa() function.
+```{r}
+fa(bcw_new,nfactors = 1,rotate ="none")
+```
+## • Rotate the factors
+```{r}
+fa(bcw_new,nfactors = 1,rotate ="varimax")
+```
+## • Compute factor scores
+```{r}
+fa_bcw<-fa(bcw_new,nfactors = 1,rotate ="varimax",scores="regression")
+head(fa_bcw$scores)
+```
+## • Graph an orthogonal solution using factor.plot()
+```{r}
+factor.plot(fa_bcw)
+```
+## • Graph an oblique solutions using fa.diagram()
+```{r}
+fa.diagram(fa_bcw)
+```
+## • Interpret the results
+```{r}
+
+```
+
+
+
+
+## Problem 5. Perform multidimensional scaling on Vertebral Column Data.xlsx
+## • Input the raw data matrix to fa.parallel() function to determine the number of components to extract
+```{r}
+Vertebral_Column_Data <- read_excel("Vertebral Column Data.xlsx")
+vcd<-data.matrix(Vertebral_Column_Data)
+fa.parallel(vcd[,-1],n.iter=100)
+```
+## • Input the raw data matrix to cmdscale() function to perform multidimensional scaling.cmdscale() function which is available in the base installation performs a classical multidimensional scaling.
+```{r}
+dis<-dist(vcd)
+scl<-cmdscale(dis,k=6)
+head(scl)
+```
+## • Graph an orthogonal solution using factor.plot()
+```{r}
+factor.plot(scl)
+```
+## • Interpret the results
+```{r}
+
+```
